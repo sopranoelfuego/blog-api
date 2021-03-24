@@ -19,7 +19,7 @@ router.route('/')
   .post(upload.single('file'),createPost)
   .delete(deletePosts)
   
-router.route('/:postId')
+router.route('/:id')
  .get(getPost)
   .post(updatePost)
   .delete(deletePost)
