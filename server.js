@@ -2,7 +2,6 @@ const express=require('express')
 const dotenv=require('dotenv')
 const cors=require('cors')
 const colors=require('colors')
-const fileupload=require('express-fileupload')
 
 
 const mongoDbConnect=require('./config/db.js')
@@ -18,5 +17,7 @@ mongoDbConnect()
 // apply middlware
 const PORT= process.env.PORT || 5000
 app.use('/api/v1/posts',require('./routes/post.js'))
+app.use('/api/v1/auth',require('./routes/user.js'))
+app.use(require('./middlewares/error.js'))
 
 app.listen(PORT,()=>console.log(`app listen to the port ${PORT}`.blue))

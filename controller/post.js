@@ -76,14 +76,14 @@ const deletePost=asyncHandler(async(req,res,next)=>{
      if(!post){
       return next(new ErrorResponse('post not found',404))
      }
-     post=await Post.remove()
+     post=await Post.findByIdAndDelete(id)
      res.status(200).json({success:true,data:"delete succefful"})
 })
 
 const deletePosts=asyncHandler(async(req,res,next)=>{
    
-    await Post.deleteMany({})
-    
+   await Post.remove({})
+
     res.send('this is deletePosts')
 })
 
