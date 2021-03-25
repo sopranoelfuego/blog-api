@@ -2,7 +2,14 @@
 
 
 
-const {register,login,getUsers,deleteUsers}=require('../controller/auth.js')
+const {register,
+        login,
+        getUsers,
+        deleteUsers,
+        getUser,
+        updateUserDetails,
+        whoIam
+        }=require('../controller/auth.js')
 
 router.route('/')
         .get(getUsers)
@@ -13,6 +20,11 @@ router.route('/register')
 
 router.route('/login')
         .post(login)
-        
+router.route('/:id')
+        .get(getUser)
+router.route('/updateUserDetails')
+        .put(updateUserDetails)
+router.route('/whoIam')
+        .get(whoIam)
 
 module.exports=router 

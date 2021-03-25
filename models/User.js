@@ -3,6 +3,7 @@
 const mongoose=require('mongoose')
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcrypt')
+const asyncHandler = require('../middlewares/ansync')
 
 const userSchema=new mongoose.Schema({
        name:{
@@ -35,11 +36,11 @@ const userSchema=new mongoose.Schema({
 })
 
 userSchema.pre('save',async function(next){
-  if(!this.isModified('password')){
-   next()
-  }
- const salt =await bcrypt.genSalt()
- this.password=await bcrypt.hash(this.password,salt)
+  if(this.isModified('password')){
+    const salt =await bcrypt.genSalt()
+    this.password=await bcrypt.hash(this.password,salt)
+ }
+ next()
 
 })
 userSchema.methods.confirmThePassword=async function(plainText){
@@ -50,5 +51,12 @@ userSchema.methods.confirmThePassword=async function(plainText){
   }
   return await bcrypt.compare(plainText,this.password)
 }
+userSchema.methods.signWithToken=async function(){
+  return await jwt.sign({id:this._id},process.env.JWT_SECRET_WORD,{
+    expiresIn:process.env.JWT_SECRET_EXPIRE
+  })
+
+}
+
 
 module.exports=mongoose.model('User',userSchema)
