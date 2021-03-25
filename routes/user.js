@@ -2,11 +2,11 @@
 
 
 
-const {register,login,getUsers}=require('../controller/auth.js')
-const { route } = require('./post.js')
+const {register,login,getUsers,deleteUsers}=require('../controller/auth.js')
 
 router.route('/')
         .get(getUsers)
+        .delete(deleteUsers)
 router.route('/register')
         .post(register)
         

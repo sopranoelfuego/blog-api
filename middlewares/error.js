@@ -8,10 +8,10 @@ const errorHandler = (err, req, res, next) => {
   // Log to console for dev
   console.log(err);
     // Mongoose bad ObjectId
-    if (err.name === 'Error') {
-      const message = `Resource not found`;
-      error = new ErrorResponse(message, 404);
-    }
+    // if (err.name === 'Error') {
+    //   const message = `Resource not found`;
+    //   error = new ErrorResponse(me, 404);
+    // }
   
   // Mongoose bad ObjectId
   if (err.name === 'CastError') {
