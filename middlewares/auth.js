@@ -22,7 +22,7 @@ const protectRoute=asyncHandler(async(req,res,next)=>{
         }
         next()
      } catch (error) {
-         return  next(new ErrorResponse('not authorized',401))
+         return  next(new ErrorResponse('login first',401))
      }
 })
 

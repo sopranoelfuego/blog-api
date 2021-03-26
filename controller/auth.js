@@ -103,18 +103,20 @@ const whoIam=asyncHandler(async (req,res,next)=>{
 const logout=asyncHandler(async(req,res,next)=>{
 
     if(!req.user){
-        next(new ErrorResponse('login first',404))
+       return  next(new ErrorResponse('login first',404))
     }
+    
     req.user=null
     if(req.user !==  null){
        return next(new ErrorResponse("logout failed",404))
     }
+
+    res.status(200).json({success:true,data:"logout successffuly"})
     req.headers.authorization=null
     if(req.headers.authorization !==null){
         return next(new ErrorResponse('error update header failed',404))
     }
      
-    res.status(200).json({success:true,data:"logout successffuly"})
 })
 module.exports={
     register,
