@@ -1,5 +1,5 @@
 const User=require('../models/User.js')
-
+const colors=require('colors')
 const mongoose=require('mongoose')
 const ErrorResponse=require('../utils/erroresponse.js')
 const asyncHandler=require('../middlewares/ansync.js')
@@ -60,8 +60,14 @@ const login=asyncHandler(async(req,res,next)=>{
 })
 
 const getUsers=asyncHandler(async(req,res,next)=>{
+
+    if(!req.user){
+        return next(new ErrorResponse("please login first",404))
+    }
+    
     const users=await User.find().select('+password')
-    res.status(200).json({success:true,data:users})
+    res.status(200).json({success:true,count:users.length,data:users})
+    
 })
 
 
@@ -94,7 +100,22 @@ const whoIam=asyncHandler(async (req,res,next)=>{
     const user=await User.findById(req.user.id)
     res.status(200).json({success:true,data:user})
 })
+const logout=asyncHandler(async(req,res,next)=>{
 
+    if(!req.user){
+        next(new ErrorResponse('login first',404))
+    }
+    req.user=null
+    if(req.user !==  null){
+       return next(new ErrorResponse("logout failed",404))
+    }
+    req.headers.authorization=null
+    if(req.headers.authorization !==null){
+        return next(new ErrorResponse('error update header failed',404))
+    }
+     
+    res.status(200).json({success:true,data:"logout successffuly"})
+})
 module.exports={
     register,
     login,
@@ -102,5 +123,6 @@ module.exports={
     deleteUsers,
     getUser,
     updateUserDetails,
-    whoIam
+    whoIam,
+    logout
 }

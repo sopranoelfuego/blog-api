@@ -20,7 +20,8 @@ const postSchema=new mongoose.Schema({
     ,
     file:{
         data:Buffer,
-        contentType:String
+        contentType:String,
+        select:false
     },
     author:{
         type:mongoose.Schema.ObjectId,

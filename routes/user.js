@@ -8,11 +8,13 @@ const {register,
         deleteUsers,
         getUser,
         updateUserDetails,
-        whoIam
+        whoIam,
+        logout
         }=require('../controller/auth.js')
+const protectRoute = require('../middlewares/auth.js')
 
 router.route('/')
-        .get(getUsers)
+        .get(protectRoute,getUsers)
         .delete(deleteUsers)
 router.route('/register')
         .post(register)
@@ -21,10 +23,12 @@ router.route('/register')
 router.route('/login')
         .post(login)
 router.route('/:id')
-        .get(getUser)
+        .get(protectRoute,getUser)
 router.route('/updateUserDetails')
         .put(updateUserDetails)
 router.route('/whoIam')
         .get(whoIam)
+router.route('/logout')
+        .post(protectRoute,logout)
 
 module.exports=router 

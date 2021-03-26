@@ -6,6 +6,7 @@ const User=require('../models/User.js')
 // with his token and create a req.user which will be used so far
 const protectRoute=asyncHandler(async(req,res,next)=>{
     let token
+    console.log("this is the headr from ",req.headers.authorization)
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
 
        token=req.headers.authorization.split(' ')[1]

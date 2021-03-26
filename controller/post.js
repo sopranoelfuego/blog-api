@@ -15,6 +15,7 @@ const createPost = asyncHandler(async (req, res, next) => {
   newPost.date = date;
   newPost.file.data = fs.readFileSync(req.file.path);
   newPost.file.contentType = req.file.mimetype;
+  console.log(newPost)
   await newPost.save((err, doc) => {
     if (err) {
       return next(new ErrorResponse("error post not saved...", 500));
@@ -28,7 +29,7 @@ const getPosts = asyncHandler(async (req, res, next) => {
   if (!posts) {
     return next(new ErrorResponse("failed to get the posts", 500));
   }
-  res.status(200).json({ success: true, data: posts });
+  res.status(200).json({ success: true,count:posts.length,data: posts });
 });
 
 const getPost = asyncHandler(async (req, res, next) => {

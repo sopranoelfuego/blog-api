@@ -33,6 +33,6 @@ router
   .post(protectRoute, updatePost)
   .delete(protectRoute, deletePost);
 
-router.route("/:category").post(protectRoute, postByCategory);
+router.route("/sort/:category").post(protectRoute, postByCategory);
 
 module.exports = router;
