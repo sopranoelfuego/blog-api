@@ -17,7 +17,7 @@ router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/:id").get(protectRoute, getUser);
 router.route("/updateUserDetails").put(updateUserDetails);
-router.route("/whoIam").get(whoIam);
+router.route("/me/getme").get(protectRoute,whoIam);
 router.route("/logout").post(protectRoute, logout);
 
 module.exports = router;

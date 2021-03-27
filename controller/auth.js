@@ -97,8 +97,10 @@ const deleteUsers=asyncHandler(async(req,res,next)=>{
 })
 const whoIam=asyncHandler(async (req,res,next)=>{
     
-    const user=await User.findById(req.user.id)
-    res.status(200).json({success:true,data:user})
+    // // const user=await User.findById(req.user.id)
+    // console.log(`${req.user}`.colors)
+    // res.status(200).json({success:true,data:req.user})
+    res.send("hello")
 })
 const logout=asyncHandler(async(req,res,next)=>{
 

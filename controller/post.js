@@ -48,7 +48,7 @@ const getPost = asyncHandler(async (req, res, next) => {
 
 const updatePost = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  console.log(id, "and the body content", req.body);
+   
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return next(new ErrorResponse(`error there is not such ${id}`, 404));
   }
@@ -56,6 +56,11 @@ const updatePost = asyncHandler(async (req, res, next) => {
   if (!post) {
     return next(new ErrorResponse("post not found"));
   }
+  // check if he's the owner or admin
+  if(req.user.id !== post.author ){
+    return next(new ErrorResponse('u are not the owner of this post',404)) 
+}
+
   post = await Post.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
@@ -67,14 +72,25 @@ const deletePost = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   let post = await Post.findById(id);
+  
   if (!post) {
     return next(new ErrorResponse("post not found", 404));
+  }
+  if(req.user.id !== post.author){
+    return next(new ErrorResponse("only owner of this post and admin can execute this action", 404));
+    
   }
   post = await Post.findByIdAndDelete(id);
   res.status(200).json({ success: true, data: "delete succefful" });
 });
 
 const deletePosts = asyncHandler(async (req, res, next) => {
+  
+  
+  if(req.user.role !== "admin"){
+    return next(new ErrorResponse("only admin can execute this action", 404));
+
+  }
   await Post.remove({});
 
   res.send("this is deletePosts");
