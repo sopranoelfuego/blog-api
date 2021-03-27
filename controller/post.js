@@ -7,6 +7,7 @@ const { Mongoose } = require("mongoose");
 
 const createPost = asyncHandler(async (req, res, next) => {
   // "title,category,content,file,author,date"
+  
   const { title, category, content, date } = req.body;
   const newPost = new Post();
   newPost.title = title;

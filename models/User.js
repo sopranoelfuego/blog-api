@@ -22,7 +22,7 @@ const userSchema=new mongoose.Schema({
       },
       role: {
         type: String,
-        enum: ['user', 'author'],
+        enum: ['user', 'author','admin'],
         default: 'user',
       },
       password: {
@@ -45,8 +45,6 @@ userSchema.pre('save',async function(next){
 })
 userSchema.methods.confirmThePassword=async function(plainText){
   if(!this.password){
-    console.log("this.password error is undefiid",this.password)
-    console.log("this is the",plainText)
     return
   }
   return await bcrypt.compare(plainText,this.password)

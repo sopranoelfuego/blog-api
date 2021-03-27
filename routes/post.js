@@ -8,7 +8,7 @@ const {
   getPost,
   postByCategory
 } = require("../controller/post.js");
-const protectRoute = require("../middlewares/auth.js");
+const {protectRoute,checkTheRole} = require("../middlewares/auth.js");
 const router = express.Router();
 const multer = require("multer");
 
@@ -24,15 +24,15 @@ const upload = multer({ storage });
 router
   .route("/")
   .get(getPosts)
-  .post(protectRoute, upload.single("file"), createPost)
+  .post(protectRoute, upload.single("file"), checkTheRole('author','admin'),createPost)
   .delete(protectRoute, deletePosts);
 
 router
   .route("/:id")
   .get(protectRoute, getPost)
-  .post(protectRoute, updatePost)
-  .delete(protectRoute, deletePost);
+  .post(protectRoute,checkTheRole('author'), updatePost)
+  .delete(protectRoute, checkTheRole('author','admin'),deletePost);
 
-router.route("/sort/:category").post(protectRoute, postByCategory);
+router.route("/sort/:category").post(protectRoute,postByCategory);
 
 module.exports = router;
