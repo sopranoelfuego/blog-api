@@ -10,6 +10,6 @@ const sendTokenBackToResponse=async (user,statucode,res)=>{
     if(process.env.NODE_ENV === "production"){
         options.secure=true
     }
-    res.status(statucode).cookie('token',token,options).json({success:true,token})
+    res.status(statucode).cookie('token',token,options).json({success:true,data:user,token})
 }
 module.exports=sendTokenBackToResponse

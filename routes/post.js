@@ -25,7 +25,7 @@ router
   .route("/")
   .get(getPosts)
   .post(protectRoute, upload.single("file"), checkTheRole('author','admin'),createPost)
-  .delete(protectRoute, deletePosts);
+  .delete(protectRoute,checkTheRole('admin'), deletePosts);
 
 router
   .route("/:id")
